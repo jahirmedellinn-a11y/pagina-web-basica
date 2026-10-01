@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="icon" type="image/png" href="logo tech.png">
+    <link rel="icon" type="image/png" href="Assets/Main page image/logo tech.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> SupportTech </title>
@@ -11,105 +11,128 @@
 
     <header>
         <a href="index.html">
-            <img src="logo tech.png" alt="Logo TechParts" width="120">
+            <img src="Assets/Main page image/logo tech.png" alt="Logo TechParts" width="120">
         </a>
-        <div class="logo">TechParts</div>
+        <div class="logo">SupportTech</div>
         <nav>
             <ul>
-                <li><a href="#">Arma tu PC</a></li>
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Componentes</a></li>
-                <li><a href="#">Contacto</a></li>
-                
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#componentes">Componentes</a></li>
+                <li><a href="#armatupc">Arma tu PC</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="admin.html" class="link-admin-nav" style="background: rgba(0, 172, 193, 0.2); border: 1px solid #00acc1; padding: 5px 14px; border-radius: 20px; font-weight: bold; color: #00e5ff; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">⚙️ Administración</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section class="hero">
+        <section id="inicio" class="hero">
             <h1>Potencia tu PC con los mejores componentes</h1>
             <p>Encuentra procesadores, tarjetas gráficas y memorias RAM de alto rendimiento para armar la computadora de tus sueños.</p>
-            <img src="mainpage.jpg" alt="Componentes de PC">
-        </section>
-
-        <section class="servicios">
-            <h2>Qué ofrecemos </h2>
-            <div class="tarjetas">
-                <div class="tarjeta">
-                    <img src="GPU.png" alt="Tarjetas Gráficas">
-                    <h3>Tarjetas Gráficas</h3>
-                    <p>Máxima potencia gráfica para gaming de última generación, diseño y renderizado profesional.</p>
-                </div>
-                <div class="tarjeta">
-                    <img src="Procesador.jpg" alt="Procesadores">
-                    <h3>Procesadores</h3>
-                    <p>Alto rendimiento multitarea y velocidad insuperable para exprimir al máximo tus aplicaciones.</p>
-                </div>
-                <div class="tarjeta">
-                    <img src="ram.jpg" alt="Memorias RAM">
-                    <h3>Memorias RAM</h3>
-                    <p>Módulos de alta velocidad y disipadores optimizados para una fluidez perfecta en el sistema.</p>
-                </div>
-                <div class="tarjeta">
-                 <img src="laptop.jpg" alt="Laptops">
-                 <h3>Laptops</h3>
-                 <P>Laptops potentes para tareas pesadas y para juegos exigientes </P>  
-                </div>
-                <div class="tarjeta">
-                    <img src="gabinete2.png" alt="Gabinetes">
-                    <h3>Gabinetes</h3>
-                    <p> Gabinetes de diferentes tamaños</p>
-                    </div>
-                     <div class="tarjeta">
-                    <img src="motherboardjpg.jpg" alt="Tarjetas madre">
-                    <h3>Tarjetas madre</h3>
-                    <p> Bases sólidas y estables con excelente conectividad para sincronizar todos tus componentes sin cuellos de botella.</p>`    
-                    </div>
-                    <div class="tarjeta">
-                    <img src="fuentedepoder.png" alt="Fuente de poder">
-                    <h3>Fuente de poder</h3>
-                    <p> Energía limpia, segura y eficiente con certificación para proteger todo tu equipo ante cualquier variación.</p>`    
-                    </div>
-                    <div class="tarjeta">
-                    <img src="ventiladoresjpg.jpg" alt="Ventiladores">
-                    <h3>Ventiladores</h3>
-                    <p> Flujo de aire optimizado y diseño silencioso para mantener las temperaturas bajo control en sesiones de juego intensas.</p>`    
-                    </div>
-                     <div class="tarjeta">
-                    <img src="SSD.jpg" alt="SSD">
-                    <h3>SSD</h3>
-                    <p> Velocidades de lectura ultra rápidas para iniciar tu sistema operativo y cargar tus juegos en segundos.</p>  
-                    </div>
-                       <div class="tarjeta">
-                    <img src="monitor.png" alt="Monitores">
-                    <h3>Monitores</h3>
-                    <p> Alta tasa de refresco y precisión milimétrica para reaccionar al instante en cada partida.</p>  
-                    </div>
-
-
-
-
+            <img src="Assets/Main page image/mainpage.jpg" alt="Componentes de PC">
+            <div class="hero-actions">
+                <a href="#componentes" class="btn-cotizar">Explorar componentes</a>
             </div>
         </section>
 
-        <section class="armatupc">
-    <h2>Arma tu PC</h2>
-    <p>Selecciona los componentes ideales para ti y cotiza tu equipo personalizado.</p>
-    <a href="#" class="btn-cotizar">Cotizar equipo</a>
-</section>
+        <section id="componentes" class="servicios">
+            <h2>Qué ofrecemos</h2>
+            <div class="tarjetas">
+                <div class="tarjeta">
+                    <img src="Assets/Main page image/GPU.png" alt="Tarjetas Gráficas">
+                    <h3>Tarjetas Gráficas</h3>
+                    <p>Máxima potencia gráfica para gaming de última generación, diseño y renderizado profesional.</p>
+                    <a href="graficas.html" class="btn-tarjeta">Ver componentes</a>
+                </div>
 
-        <section class="contacto">
+                <div class="tarjeta">
+                    <img src="Assets/Main page image/Procesador.jpg" alt="Procesadores">
+                    <h3>Procesadores</h3>
+                    <p>Alto rendimiento multitarea y velocidad insuperable para exprimir al máximo tus aplicaciones</p>
+                    <a href="procesadores.html" class="btn-tarjeta">Ver componentes</a>
+                </div>
+
+                <div class="tarjeta">
+                    <img src="Assets/Main page image/ram.jpg" alt="Memorias RAM">
+                    <h3>Memorias RAM</h3>
+                    <p>Módulos de alta velocidad y disipadores optimizados para una fluidez perfecta en el sistema</p>
+                    <a href="ram.html" class="btn-tarjeta">Ver componentes</a>
+                </div>
+
+                <div class="tarjeta">
+                    <img src="Assets/Main page image/laptop.jpg" alt="Laptops">
+                    <h3>Laptops</h3>
+                    <p>Laptops potentes para tareas pesadas y para juegos exigientes</p>
+                    <a href="laptops.html" class="btn-tarjeta">Ver componentes</a>
+                </div>
+
+                <div class="tarjeta">
+                    <img src="Assets/Main page image/gabinete2.png" alt="Gabinetes">
+                    <h3>Gabinetes</h3>
+                    <p>Gabinetes de diferentes tamaños</p>
+                    <a href="gabinetes.html" class="btn-tarjeta">Ver componentes</a>
+                </div>
+
+                <div class="tarjeta">
+                    <img src="Assets/Main page image/motherboardjpg.jpg" alt="Tarjetas madre">
+                    <h3>Tarjetas madre</h3>
+                    <p>Bases sólidas y estables con excelente conectividad para sincronizar todos tus componentes sin cuellos de botella</p>
+                    <a href="motherboards.html" class="btn-tarjeta">Ver componentes</a>
+                </div>
+
+                <div class="tarjeta">
+                    <img src="Assets/Main page image/fuentedepoder.png" alt="Fuente de poder">
+                    <h3>Fuente de poder</h3>
+                    <p>Energía limpia, segura y eficiente con certificación para proteger todo tu equipo ante cualquier variación</p>
+                    <a href="fuentes.html" class="btn-tarjeta">Ver componentes</a>
+                </div>
+
+                <div class="tarjeta">
+                    <img src="Assets/Main page image/ventiladoresjpg.jpg" alt="Ventiladores">
+                    <h3>Ventiladores</h3>
+                    <p>Flujo de aire optimizado y diseño silencioso para mantener las temperaturas bajo control en sesiones de juego intensas</p>
+                    <a href="ventiladores.html" class="btn-tarjeta">Ver componentes</a>
+                </div>
+
+                <div class="tarjeta">
+                    <img src="Assets/Main page image/SSD.jpg" alt="SSD">
+                    <h3>SSD</h3>
+                    <p>Velocidades de lectura ultra rápidas para iniciar tu sistema operativo y cargar tus juegos en segundos</p>
+                    <a href="ssd.html" class="btn-tarjeta">Ver componentes</a>
+                </div>
+
+                <div class="tarjeta">
+                    <img src="Assets/Main page image/monitor.png" alt="Monitores">
+                    <h3>Monitores</h3>
+                    <p>Alta tasa de refresco y precisión milimétrica para reaccionar al instante en cada partida</p>
+                    <a href="monitores.html" class="btn-tarjeta">Ver componentes</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="armatupc" class="armatupc">
+            <h2>Arma tu PC</h2>
+            <p>Selecciona los componentes ideales para ti y cotiza tu equipo personalizado</p>
+            <a href="#contacto" class="btn-cotizar">Cotizar equipo</a>
+        </section>
+
+        <section id="contacto" class="contacto">
             <h2>Contacto rápido</h2>
-            <p><strong>Dirección:</strong> Jalpan </p>
+            <p><strong>Dirección:</strong> Jalpan</p>
             <p><strong>Horario:</strong> Lunes a Sábado de 9:00 AM a 7:00 PM</p>
-            <p><strong>Teléfono:</strong> 441 -***-****</p>
+            <p><strong>Teléfono:</strong> <a href="tel:4410000000" class="link-contacto">*** -***-****</a></p>
+            <div class="contacto-acciones">
+                <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="btn-cotizar">Contactar por WhatsApp</a>
+            </div>
         </section>
     </main>
 
     <footer>
         <p>&copy; 2026 TechParts. Todos los derechos reservados.</p>
         <div class="redes">
-            <a href="#">Facebook</a> | <a href="#">Instagram</a>
+            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a> | 
+            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a> | 
+            <a href="#inicio" class="link-arriba">↑ Subir al inicio</a>
         </div>
     </footer>
 

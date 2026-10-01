@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - SupportTech (Jalpan)</title>
+    <link rel="icon" type="image/png" href="Assets/Main page image/logo tech.png">
+    <link rel="stylesheet" href="admin.css">
+    <!-- Chart.js para visualización de estadísticas de ventas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- =========================================================
+         BARRA LATERAL / SIDEBAR
+         ========================================================= -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="sidebar-logo">
+                <img src="Assets/Main page image/logo tech.png" alt="Logo SupportTech">
+                <span class="sidebar-logo-text">SUPPORTTECH</span>
+            </a>
+            <span class="sidebar-badge">JALPAN</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Principal</div>
+            
+            <a href="#dashboard" class="nav-item active" data-tab="tab-dashboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+                <span>Resumen General</span>
+            </a>
+
+            <div class="nav-section-title">Operaciones</div>
+
+            <a href="#inventario" class="nav-item" data-tab="tab-inventory">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <span>Inventario & Stock</span>
+            </a>
+
+            <a href="#pos" class="nav-item" data-tab="tab-pos">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                <span>Nueva Venta (POS)</span>
+            </a>
+
+            <a href="#historial-ventas" class="nav-item" data-tab="tab-sales-history">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <span>Historial de Ventas</span>
+            </a>
+
+            <div class="nav-section-title">Inteligencia & Control</div>
+
+            <a href="#estadisticas" class="nav-item" data-tab="tab-analytics">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                <span>Estadísticas de Ventas</span>
+            </a>
+
+            <a href="#usuarios" class="nav-item admin-only" data-tab="tab-users">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>Usuarios & Roles</span>
+            </a>
+
+            <a href="#sucursales" class="nav-item" data-tab="tab-branches">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span>Mi Tienda (Jalpan)</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="return-store-btn" onclick="State.resetData()" title="Restaura datos de demostración si hiciste cambios">
+                🔄 Restablecer Demo
+            </button>
+            <a href="index.html" class="return-store-btn">
+                <span>← Volver a la Tienda</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- =========================================================
+         ÁREA PRINCIPAL
+         ========================================================= -->
+    <main class="admin-main">
+        
+        <!-- Header Superior -->
+        <header class="admin-header">
+            <div class="header-left">
+                <button class="menu-toggle" id="mobileMenuToggle" aria-label="Abrir Menú">
+                    <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <div class="header-title-box">
+                    <h1>SupportTech - Tienda Independiente Jalpan</h1>
+                    <p>Panel de Administración Comercial, Inventario y Ventas</p>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <!-- Selector interactivo de Rol para probar permisos -->
+                <div class="role-switcher">
+                    <label for="headerRoleSelect">Rol:</label>
+                    <select id="headerRoleSelect" class="role-select">
+                        <option value="ADMIN">👑 ADMIN (Control Total)</option>
+                        <option value="VENDEDOR">💼 VENDEDOR (Caja / Stock)</option>
+                    </select>
+                </div>
+
+                <!-- Perfil actual de Jahir -->
+                <div class="user-profile-badge">
+                    <div class="user-avatar">J</div>
+                    <div class="user-info">
+                        <span class="user-name">Jahir</span>
+                        <span class="user-role-tag" id="userCurrentRoleBadge">ADMIN</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Banner de permisos reactivo -->
+        <div id="rolePermissionAlert" style="display:none; padding:12px 28px; background: rgba(0, 172, 193, 0.15); border-bottom: 1px solid var(--primary); font-size:13px; color: var(--primary-light); align-items:center; gap:8px;"></div>
+
+        <!-- Contenedor dinámico de pestañas -->
+        <div class="admin-content">
+
+            <!-- =====================================================
+                 1. PESTAÑA: RESUMEN / DASHBOARD
+                 ===================================================== -->
+            <section id="tab-dashboard" class="tab-pane active">
+                <div class="section-header">
+                    <div>
+                        <h2>📊 Resumen Operativo - Tienda Jalpan</h2>
+                        <p>Visión general del estado comercial y almacén en tiempo real.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="document.querySelector('[data-tab=tab-analytics]').click()">
+                            📈 Ver Análisis de Ventas
+                        </button>
+                        <button class="btn btn-primary" onclick="document.querySelector('[data-tab=tab-pos]').click()">
+                            + Registrar Venta
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tarjetas KPI -->
+                <div class="stats-grid">
+                    <div class="stat-card cyan">
+                        <div class="stat-info">
+                            <h3>Ventas Acumuladas</h3>
+                            <div class="stat-value" id="dashMonthSales">$0 MXN</div>
+                            <div class="stat-subtext positive">▲ +16.4% este mes</div>
+                        </div>
+                        <div class="stat-icon cyan">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                    </div>
+
+                    <div class="stat-card green">
+                        <div class="stat-info">
+                            <h3>Ventas de Hoy</h3>
+                            <div class="stat-value" id="dashTodaySales">$0 MXN</div>
+                            <div class="stat-subtext positive" id="dashTodayTransactions">0 ventas hoy</div>
+                        </div>
+                        <div class="stat-icon green">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                    </div>
+
+                    <div class="stat-card orange">
+                        <div class="stat-info">
+                            <h3>Alertas de Stock</h3>
+                            <div class="stat-value" id="dashLowStockCount">0 alertas</div>
+                            <div class="stat-subtext warning">Revisar existencias críticas</div>
+                        </div>
+                        <div class="stat-icon orange">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        </div>
+                    </div>
+
+                    <div class="stat-card purple">
+                        <div class="stat-info">
+                            <h3>Unidades en Tienda</h3>
+                            <div class="stat-value" id="dashTotalUnits">0 pzas</div>
+                            <div class="stat-subtext neutral">Stock en Jalpan</div>
+                        </div>
+                        <div class="stat-icon purple">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paneles del Dashboard -->
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+                    <!-- Últimas Ventas -->
+                    <div class="table-container">
+                        <div style="padding: 18px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                            <h3 style="font-size: 15px; font-weight: 700; color: var(--text-title);">Últimas Ventas Registradas</h3>
+                            <button class="btn btn-sm btn-secondary" onclick="document.querySelector('[data-tab=tab-sales-history]').click()">Ver Todas</button>
+                        </div>
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Folio</th>
+                                    <th>Fecha</th>
+                                    <th>Cliente</th>
+                                    <th>Atendió</th>
+                                    <th>Tienda</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashRecentSalesTable">
+                                <!-- Llenado dinámico -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Alertas de Stock Bajo -->
+                    <div class="table-container">
+                        <div style="padding: 18px 20px; border-bottom: 1px solid var(--border);">
+                            <h3 style="font-size: 15px; font-weight: 700; color: var(--text-title);">Alertas de Reorden Inmediato</h3>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top:2px;">Componentes por debajo del mínimo sugerido</p>
+                        </div>
+                        <div id="dashLowStockAlerts" style="padding: 16px;">
+                            <!-- Llenado dinámico -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================================
+                 2. PESTAÑA: CONTROL DE INVENTARIO
+                 ===================================================== -->
+            <section id="tab-inventory" class="tab-pane">
+                <div class="section-header">
+                    <div>
+                        <h2>📦 Control de Inventario - Tienda Jalpan</h2>
+                        <p>Administración de componentes, existencias físicas, precios y costos de adquisición.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="exportInventoryCSV()">
+                            📥 Exportar Catálogo (CSV)
+                        </button>
+                        <button class="btn btn-primary" id="btnNewProduct">
+                            + Agregar Producto
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resumen de Valor de Inventario -->
+                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-card cyan">
+                        <div class="stat-info">
+                            <h3>Valor Comercial (P. Venta)</h3>
+                            <div class="stat-value" id="invTotalValueDisplay">$0 MXN</div>
+                            <div class="stat-subtext neutral">Valor estimado de venta total</div>
+                        </div>
+                    </div>
+                    <div class="stat-card purple admin-only">
+                        <div class="stat-info">
+                            <h3>Costo de Adquisición</h3>
+                            <div class="stat-value" id="invTotalCostDisplay">$0 MXN</div>
+                            <div class="stat-subtext neutral">Inversión neta en mercancía</div>
+                        </div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-info">
+                            <h3>Unidades Físicas</h3>
+                            <div class="stat-value" id="invTotalUnitsDisplay">0 unidades</div>
+                            <div class="stat-subtext positive">En almacén de Jalpan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barra de Búsqueda y Filtros -->
+                <div class="filter-bar">
+                    <div class="search-input-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="invSearchInput" placeholder="Buscar por SKU, modelo o nombre del componente...">
+                    </div>
+
+                    <select id="invCatFilter" class="filter-select">
+                        <option value="Todas">Todas las Categorías</option>
+                        <option value="Tarjetas Gráficas">Tarjetas Gráficas</option>
+                        <option value="Procesadores">Procesadores</option>
+                        <option value="Memorias RAM">Memorias RAM</option>
+                        <option value="Laptops">Laptops</option>
+                        <option value="Gabinetes">Gabinetes</option>
+                        <option value="Tarjetas Madre">Tarjetas Madre</option>
+                        <option value="Fuentes de Poder">Fuentes de Poder</option>
+                        <option value="Ventiladores">Ventiladores</option>
+                        <option value="Almacenamiento SSD">Almacenamiento SSD</option>
+                        <option value="Monitores">Monitores</option>
+                    </select>
+
+                    <select id="invStockFilter" class="filter-select">
+                        <option value="Todos">Cualquier Nivel de Stock</option>
+                        <option value="instock">En Stock (Normal)</option>
+                        <option value="lowstock">Stock Bajo (Crítico)</option>
+                        <option value="outstock">Agotado (0 pzas)</option>
+                    </select>
+                </div>
+
+                <!-- Tabla de Inventario -->
+                <div class="table-container">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>SKU</th>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th class="admin-only">Costo</th>
+                                <th>P. Venta</th>
+                                <th class="admin-only">Margen</th>
+                                <th>Stock</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody">
+                            <!-- Llenado dinámico -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- =====================================================
+                 3. PESTAÑA: PUNTO DE VENTA (POS) / NUEVA VENTA
+                 ===================================================== -->
+            <section id="tab-pos" class="tab-pane">
+                <div class="section-header">
+                    <div>
+                        <h2>🛒 Punto de Venta (Terminal de Caja - Jalpan)</h2>
+                        <p>Selecciona componentes para armar el ticket, cobrar en mostrador y emitir recibo digital con descuento automático de inventario.</p>
+                    </div>
+                </div>
+
+                <div class="pos-container">
+                    <!-- Catálogo interactivo de productos -->
+                    <div class="pos-catalog-panel">
+                        <div style="display:flex; gap:12px; margin-bottom: 14px;">
+                            <div class="search-input-box" style="flex:1;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                <input type="text" id="posSearchInput" placeholder="Buscar componente para venta rápida...">
+                            </div>
+                        </div>
+
+                        <!-- Filtro de Categorías rápido -->
+                        <div class="pos-categories-nav">
+                            <button class="pos-cat-btn active" data-cat="Todas">Todas</button>
+                            <button class="pos-cat-btn" data-cat="Tarjetas Gráficas">GPU</button>
+                            <button class="pos-cat-btn" data-cat="Procesadores">CPUs</button>
+                            <button class="pos-cat-btn" data-cat="Memorias RAM">RAM</button>
+                            <button class="pos-cat-btn" data-cat="Laptops">Laptops</button>
+                            <button class="pos-cat-btn" data-cat="Tarjetas Madre">Motherboards</button>
+                            <button class="pos-cat-btn" data-cat="Almacenamiento SSD">SSD</button>
+                            <button class="pos-cat-btn" data-cat="Monitores">Monitores</button>
+                            <button class="pos-cat-btn" data-cat="Fuentes de Poder">Fuentes</button>
+                        </div>
+
+                        <div class="pos-grid" id="posCatalogGrid">
+                            <!-- Llenado dinámico de tarjetas -->
+                        </div>
+                    </div>
+
+                    <!-- Panel de Ticket y Cobro (Carrito) -->
+                    <div class="pos-cart-panel">
+                        <div class="pos-cart-header">
+                            <div>
+                                <h3 style="font-size: 15px; color:var(--text-title); font-weight:700;">Ticket Mostrador (Jalpan)</h3>
+                                <div style="font-size:11px; color:var(--text-muted);" id="posCartCount">0 ítems</div>
+                            </div>
+                            <button class="btn btn-sm btn-secondary" id="btnClearCart" title="Vaciar Carrito">Vaciar</button>
+                        </div>
+
+                        <!-- Datos del cliente y vendedor -->
+                        <div style="padding: 14px 16px; border-bottom:1px solid var(--border); display:flex; flex-direction:column; gap:8px;">
+                            <input type="text" id="posClientInput" class="form-input" placeholder="Nombre del Cliente" value="Cliente Mostrador">
+                            <div style="display:flex; flex-direction:column; gap:4px;">
+                                <label style="font-size:11px; color:var(--text-muted); font-weight:700;">ATENDIDO POR:</label>
+                                <select id="posSellerSelect" class="form-select">
+                                    <option value="Jahir">Jahir (Administrador)</option>
+                                    <option value="Carlos Mendoza">Carlos Mendoza (Vendedor)</option>
+                                    <option value="Laura Morales">Laura Morales (Vendedora)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Lista de productos en el ticket -->
+                        <div class="pos-cart-body" id="posCartList">
+                            <!-- Llenado dinámico -->
+                        </div>
+
+                        <!-- Resumen y botón de cobro -->
+                        <div class="pos-cart-footer">
+                            <div class="cart-row">
+                                <span>Subtotal (Base):</span>
+                                <span id="posSubtotalDisplay">$0.00 MXN</span>
+                            </div>
+                            <div class="cart-row">
+                                <span>IVA (16% Incluido):</span>
+                                <span id="posTaxDisplay">$0.00 MXN</span>
+                            </div>
+                            <div class="cart-row total">
+                                <span>TOTAL A COBRAR:</span>
+                                <span class="total-amount" id="posTotalDisplay">$0.00 MXN</span>
+                            </div>
+
+                            <div style="display:flex; flex-direction:column; gap:6px; margin-top:6px;">
+                                <label style="font-size:11px; color:var(--text-muted); font-weight:700;">MÉTODO DE PAGO:</label>
+                                <select id="posPaymentSelect" class="form-select">
+                                    <option value="Efectivo">💵 Efectivo</option>
+                                    <option value="Tarjeta">💳 Tarjeta Débito / Crédito</option>
+                                    <option value="Transferencia SPEI">📱 Transferencia SPEI</option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-primary" id="btnCompleteSale" style="width:100%; justify-content:center; padding:12px; font-size:15px; margin-top:8px;">
+                                💳 Cobrar y Generar Ticket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================================
+                 4. PESTAÑA: HISTORIAL DE VENTAS
+                 ===================================================== -->
+            <section id="tab-sales-history" class="tab-pane">
+                <div class="section-header">
+                    <div>
+                        <h2>📋 Historial de Ventas Registradas</h2>
+                        <p>Auditoría de tickets emitidos en tienda de Jalpan, reimpresión y cancelaciones con devolución de stock.</p>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="search-input-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="salesHistorySearch" placeholder="Buscar por Folio (#ST-...) o nombre de cliente...">
+                    </div>
+
+                    <select id="salesHistorySeller" class="filter-select">
+                        <option value="Todos">Todos los Vendedores</option>
+                        <option value="Jahir">Jahir</option>
+                        <option value="Carlos Mendoza">Carlos Mendoza</option>
+                        <option value="Laura Morales">Laura Morales</option>
+                    </select>
+
+                    <select id="salesHistoryMethod" class="filter-select">
+                        <option value="Todos">Cualquier Método de Pago</option>
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Tarjeta">Tarjeta</option>
+                        <option value="Transferencia SPEI">Transferencia SPEI</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Folio</th>
+                                <th>Fecha y Hora</th>
+                                <th>Cliente</th>
+                                <th>Atendió</th>
+                                <th>Método</th>
+                                <th>Total</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="salesHistoryTableBody">
+                            <!-- Llenado dinámico -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- =====================================================
+                 5. PESTAÑA: ESTADÍSTICAS DE VENTA DE ACUERDO A CONSULTA
+                 (Diaria, Semanal, Mensual, Por Vendedor)
+                 ===================================================== -->
+            <section id="tab-analytics" class="tab-pane">
+                <div class="section-header">
+                    <div>
+                        <h2>📈 Estadísticas y Reportes de Ventas</h2>
+                        <p>Análisis interactivo de ingresos, ganancias y desempeño filtrado por período y vendedor.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" id="btnExportAnalyticsCSV">
+                            📥 Descargar Reporte (CSV)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Controles Interactivos de Consulta -->
+                <div class="analytics-controls">
+                    <div class="filter-group">
+                        <span style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Consulta por Período:</span>
+                        <button class="btn-period" data-period="daily">📅 Hoy / Diario</button>
+                        <button class="btn-period" data-period="weekly">📆 Semanal (7 días)</button>
+                        <button class="btn-period active" data-period="monthly">🗓 Mensual (30 días)</button>
+                        <button class="btn-period" data-period="yearly">📊 Anual</button>
+                    </div>
+
+                    <div class="filter-group">
+                        <span style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Filtrar por Vendedor:</span>
+                        <select id="analyticsSellerSelect" class="filter-select">
+                            <option value="Todos">Todos los Vendedores</option>
+                            <option value="Jahir">Jahir</option>
+                            <option value="Carlos Mendoza">Carlos Mendoza</option>
+                            <option value="Laura Morales">Laura Morales</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Métricas Dinámicas según Consulta -->
+                <div class="stats-grid">
+                    <div class="stat-card cyan">
+                        <div class="stat-info">
+                            <h3>Ventas Totales Consultadas</h3>
+                            <div class="stat-value" id="anTotalRevenue">$0 MXN</div>
+                            <div class="stat-subtext positive">Ingresos brutos acumulados</div>
+                        </div>
+                        <div class="stat-icon cyan">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                    </div>
+
+                    <div class="stat-card green admin-only">
+                        <div class="stat-info">
+                            <h3>Ganancia Neta Estimada</h3>
+                            <div class="stat-value" id="anTotalProfit">$0 MXN</div>
+                            <div class="stat-subtext positive">Margen sobre costo directo</div>
+                        </div>
+                        <div class="stat-icon green">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                        </div>
+                    </div>
+
+                    <div class="stat-card purple">
+                        <div class="stat-info">
+                            <h3>Transacciones / Tickets</h3>
+                            <div class="stat-value" id="anTotalOrders">0 ventas</div>
+                            <div class="stat-subtext neutral">Ventas concretadas</div>
+                        </div>
+                        <div class="stat-icon purple">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                        </div>
+                    </div>
+
+                    <div class="stat-card orange">
+                        <div class="stat-info">
+                            <h3>Ticket Promedio</h3>
+                            <div class="stat-value" id="anAvgTicket">$0 MXN</div>
+                            <div class="stat-subtext neutral">Gasto promedio por cliente</div>
+                        </div>
+                        <div class="stat-icon orange">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="18"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos Principales -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-card-header">
+                            <h3>📈 Evolución de Ingresos en el Período</h3>
+                            <span style="font-size:12px; color:var(--primary-light);">Tendencia temporal</span>
+                        </div>
+                        <div class="chart-canvas-wrapper">
+                            <canvas id="chartTimeline"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-card-header">
+                            <h3>🍩 Ventas por Categoría de Componente</h3>
+                            <span style="font-size:12px; color:var(--text-muted);">Proporción de inventario</span>
+                        </div>
+                        <div class="chart-canvas-wrapper">
+                            <canvas id="chartCategory"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos Secundarios (Formas de Pago & Rendimiento de Vendedores) -->
+                <div class="charts-grid-secondary">
+                    <div class="chart-card">
+                        <div class="chart-card-header">
+                            <h3>💳 Ventas por Método de Pago</h3>
+                            <span style="font-size:12px; color:var(--text-muted);">Efectivo / Tarjeta / Transferencia</span>
+                        </div>
+                        <div class="chart-canvas-wrapper">
+                            <canvas id="chartBranch"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-card-header">
+                            <h3>💼 Rendimiento por Vendedor</h3>
+                            <span style="font-size:12px; color:var(--text-muted);">Productividad de equipo</span>
+                        </div>
+                        <div class="chart-canvas-wrapper">
+                            <canvas id="chartSellers"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Productos Más Vendidos en el Período -->
+                <div class="table-container">
+                    <div style="padding:18px 20px; border-bottom:1px solid var(--border);">
+                        <h3 style="font-size:15px; font-weight:700; color:var(--text-title);">🔥 Top Componentes Más Vendidos en la Consulta</h3>
+                    </div>
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Unidades Vendidas</th>
+                                <th>Total Facturado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="anTopProductsTable">
+                            <!-- Llenado dinámico -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- =====================================================
+                 6. PESTAÑA: PERFILES Y GESTIÓN DE ROLES
+                 ===================================================== -->
+            <section id="tab-users" class="tab-pane">
+                <div class="section-header">
+                    <div>
+                        <h2>👥 Perfiles y Control de Acceso (Roles)</h2>
+                        <p>Gestión del equipo de trabajo en tienda de Jalpan y asignación de permisos (ADMIN, VENDEDOR).</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="btnNewUser">
+                            + Agregar Nuevo Usuario
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Explicación de Roles -->
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px;">
+                    <div style="background:var(--bg-card); border:1px solid var(--border); border-top:3px solid var(--primary); padding:18px; border-radius:var(--radius-md);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <strong style="color:var(--primary-light); font-size:14px;">👑 ADMINISTRADOR (Jahir)</strong>
+                            <span class="badge-role badge-role-admin">FULL ACCESS</span>
+                        </div>
+                        <p style="font-size:12px; color:var(--text-muted); line-height:1.4;">Acceso completo: Control de inventario, costos confidenciales de compra, márgenes brutos, reportes de utilidades, altas/bajas de personal y configuración general.</p>
+                    </div>
+
+                    <div style="background:var(--bg-card); border:1px solid var(--border); border-top:3px solid #3b82f6; padding:18px; border-radius:var(--radius-md);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <strong style="color:#60a5fa; font-size:14px;">💼 VENDEDOR (Mostrador)</strong>
+                            <span class="badge-role badge-role-seller">CAJA & STOCK</span>
+                        </div>
+                        <p style="font-size:12px; color:var(--text-muted); line-height:1.4;">Terminal Punto de Venta (POS), cobro a clientes, consulta de existencias y emisión de tickets. Los costos de compra y márgenes están ocultos.</p>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div style="padding:16px 20px; border-bottom:1px solid var(--border);">
+                        <h3 style="font-size:15px; font-weight:700; color:var(--text-title);">Equipo de Trabajo - SupportTech Jalpan</h3>
+                    </div>
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Usuario / Contacto</th>
+                                <th>Rol Asignado</th>
+                                <th>Sucursal Base</th>
+                                <th>Estado</th>
+                                <th>Último Acceso</th>
+                                <th>Prueba Rápida</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Llenado dinámico -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- =====================================================
+                 7. PESTAÑA: INFORMACIÓN DE LA TIENDA (JALPAN)
+                 ===================================================== -->
+            <section id="tab-branches" class="tab-pane">
+                <div class="section-header">
+                    <div>
+                        <h2>🏪 Información de la Tienda (Jalpan)</h2>
+                        <p>Perfil comercial de tu tienda independiente y configuración del establecimiento.</p>
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+                    <!-- Ficha de la Tienda -->
+                    <div class="stat-card cyan" style="flex-direction:column; gap:16px;">
+                        <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+                            <span class="badge-role badge-role-admin">TIENDA INDEPENDIENTE</span>
+                            <span class="badge-status badge-instock">Operando</span>
+                        </div>
+                        <div>
+                            <h3 style="font-size:22px; color:var(--text-title); font-weight:800; margin-bottom:6px;">SupportTech - Jalpan de Serra</h3>
+                            <p style="font-size:14px; color:var(--text-muted);">Especialistas en ensamble de computadoras, componentes gaming y servicio técnico profesional.</p>
+                        </div>
+                        
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; background:var(--bg-input); padding:16px; border-radius:var(--radius-md); font-size:13px; color:var(--text-body);">
+                            <div>📍 <strong>Ubicación:</strong> Jalpan de Serra, Querétaro</div>
+                            <div>👤 <strong>Propietario / Admin:</strong> Jahir</div>
+                            <div>📞 <strong>Teléfono:</strong> <a href="tel:4410000000" style="color:var(--primary); text-decoration:none;">***-***-****</a></div>
+                            <div>🕒 <strong>Horario:</strong> Lunes a Sábado 9:00 AM - 7:00 PM</div>
+                            <div>📧 <strong>Correo de contacto:</strong> jahir@supporttech.com</div>
+                            <div>💵 <strong>Moneda oficial:</strong> Peso Mexicano (MXN)</div>
+                        </div>
+
+                        <div style="display:flex; gap:10px; margin-top:8px;">
+                            <button class="btn btn-primary" onclick="document.querySelector('[data-tab=tab-inventory]').click();">
+                                📦 Ver Catálogo Completo
+                            </button>
+                            <a href="index.html" class="btn btn-secondary">
+                                🌐 Visitar Tienda Web Pública
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Resumen Operativo -->
+                    <div class="table-container" style="padding:20px; display:flex; flex-direction:column; gap:14px;">
+                        <h3 style="font-size:16px; font-weight:700; color:var(--text-title);">Garantía y Políticas SupportTech</h3>
+                        <p style="font-size:12px; color:var(--text-muted); line-height:1.5;">Todos los ensambles y componentes vendidos en nuestra tienda de Jalpan cuentan con respaldo directo de 1 año contra defectos de fábrica.</p>
+                        <hr style="border:none; border-top:1px solid var(--border);">
+                        <div style="font-size:12px; color:var(--text-muted);">
+                            <div><strong>RFC Negocio:</strong> STE-260930-PC1</div>
+                            <div style="margin-top:4px;"><strong>Impuestos:</strong> IVA 16% Traslado Automático</div>
+                            <div style="margin-top:4px;"><strong>Atención a Clientes:</strong> Mostrador y WhatsApp</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- =========================================================
+         MODAL: AGREGAR / EDITAR PRODUCTO
+         ========================================================= -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="productModalTitle">Agregar Producto</h3>
+                <button class="btn-close-modal" onclick="closeProductModal()">✕</button>
+            </div>
+            <form id="formProductModal">
+                <div class="modal-body">
+                    <input type="hidden" id="modalProdId">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Código SKU *</label>
+                            <input type="text" id="modalProdSku" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Categoría *</label>
+                            <select id="modalProdCategory" class="form-select" required>
+                                <option value="Tarjetas Gráficas">Tarjetas Gráficas</option>
+                                <option value="Procesadores">Procesadores</option>
+                                <option value="Memorias RAM">Memorias RAM</option>
+                                <option value="Laptops">Laptops</option>
+                                <option value="Gabinetes">Gabinetes</option>
+                                <option value="Tarjetas Madre">Tarjetas Madre</option>
+                                <option value="Fuentes de Poder">Fuentes de Poder</option>
+                                <option value="Ventiladores">Ventiladores</option>
+                                <option value="Almacenamiento SSD">Almacenamiento SSD</option>
+                                <option value="Monitores">Monitores</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Nombre del Componente / Modelo *</label>
+                            <input type="text" id="modalProdName" class="form-input" required placeholder="Ej. AMD Radeon RX 6600 (8 GB GDDR6)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Costo Adquisición ($ MXN)</label>
+                            <input type="number" id="modalProdCost" class="form-input" step="0.01" min="0" placeholder="3600">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Precio de Venta ($ MXN) *</label>
+                            <input type="number" id="modalProdPrice" class="form-input" step="0.01" min="0" required placeholder="4999">
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Margen Estimado</label>
+                            <div id="modalProdMarginPreview" style="font-size:13px; font-weight:700; padding:4px 0; color:var(--text-muted);">Margen: 0%</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Stock en Tienda *</label>
+                            <input type="number" id="modalProdStock" class="form-input" min="0" required placeholder="10">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Stock Mínimo (Alerta)</label>
+                            <input type="number" id="modalProdMinStock" class="form-input" min="1" value="3">
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Ruta o URL de Imagen</label>
+                            <input type="text" id="modalProdImage" class="form-input" placeholder="Assets/Componentes/GPU/rx6600.jpg">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Producto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         MODAL: TICKET DIGITAL / RECIBO DE VENTA (IMPRIMIBLE)
+         ========================================================= -->
+    <div class="modal-overlay" id="receiptModal">
+        <div class="modal-content" style="max-width: 440px;">
+            <div class="modal-header">
+                <h3>Recibo Oficial de Venta</h3>
+                <button class="btn-close-modal" onclick="closeReceiptModal()">✕</button>
+            </div>
+            <div class="modal-body" id="receiptPrintArea">
+                <!-- Se llena dinámicamente con admin.js -->
+            </div>
+            <div class="modal-footer" style="justify-content:space-between;">
+                <button type="button" class="btn btn-secondary" onclick="closeReceiptModal()">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="printReceipt()">🖨 Imprimir Ticket</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         MODAL: AGREGAR NUEVO USUARIO
+         ========================================================= -->
+    <div class="modal-overlay" id="userModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Registrar Nuevo Usuario / Colaborador</h3>
+                <button class="btn-close-modal" onclick="closeUserModal()">✕</button>
+            </div>
+            <form id="formUserModal">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label">Nombre Completo *</label>
+                            <input type="text" id="modalUserName" class="form-input" required placeholder="Ej. Mariana López">
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Correo Electrónico *</label>
+                            <input type="email" id="modalUserEmail" class="form-input" required placeholder="mariana@supporttech.com">
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Rol de Acceso *</label>
+                            <select id="modalUserRole" class="form-select" required>
+                                <option value="VENDEDOR">VENDEDOR (Terminal POS / Caja)</option>
+                                <option value="ADMIN">ADMINISTRADOR GENERAL</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeUserModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Registrar Usuario</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script Principal -->
+    <script src="admin.js"></script>
+</body>
+</html>
